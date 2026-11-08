@@ -1,7 +1,7 @@
 const API_KEY = 'e394b4e7';
 const searchForm = document.querySelector('#searchForm');
 const searchInput = document.querySelector('#searchInput');
-const movieGrid = document.querySelector('#movieGrid');
+const moviesGrid = document.querySelector('#moviesGrid');
 const resultsInfo = document.querySelector('#resultsInfo');
 const sortSelect = document.querySelector('#sortSelect');
 
@@ -34,7 +34,7 @@ moviesGrid.innerHTML = skeletons;
 async function fetchMovies(searchTerm) {
   showSkeletons();
 
-  const res = await fetch(` https://www.omdbapi.com/?apikey=$ {API_KEY}&s=${searchTerm}`);
+  const res = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${searchTerm}`);
   const data = await res.json();
   
   if (data.Response === 'True') {
@@ -44,7 +44,7 @@ async function fetchMovies(searchTerm) {
     displayMovies (currentMovies);
   } else {
     resultsInfo.textContent = `Showing: ${searchTerm}`;
-    movieGrid.innerHTML = '<p>No movies found.</p>';
+    moviesGrid.innerHTML = '<p>No movies found.</p>';
     currentMovies = [];
   }
   }
@@ -70,7 +70,7 @@ ${poster ? `<img class="movie-card__img" src="${poster}" alt="${movie.Title}">` 
 `;
     }).join('');
 
-    moviesGrid.innerhTML = movieResults;
+    moviesGrid.innerHTML = movieResults;
 
     // Add error listeners after DOM insertion
     moviesGrid.querySelectorAll('.movie-card__img').forEach(img => {
@@ -92,15 +92,15 @@ sortSelect.addEventListener('change', (e) => {
 function sortMovies(sortType) {
   let sortedMovies = [...currentMovies];
 
-  if (sortType === 'a-z) {
-  sortedMovies.sort((a, b) => a.Title.localCompare(b.Title));
-} else if (sortType === 'z-a') {
-  sortedMovies.sort((a,b) => b.Title.localCompare(a.Title));
-} else if (sortType === 'newest') {
-  sortedMovies.sort((a, b) => Number(b.Year) - Number(a.Year));
-} else if (sortType === 'oldest') {
-  sortedMovies.sort((a, b) => Number(a.Year) - Number(b.Year));
-}
- 
-displayMovies(sortedMovies);
+  if (sortType === 'a-z') {
+    sortedMovies.sort((a, b) => a.Title.localeCompare(b.Title));
+  } else if (sortType === 'z-a') {
+    sortedMovies.sort((a, b) => b.Title.localeCompare(a.Title));
+  } else if (sortType === 'newest') {
+    sortedMovies.sort((a, b) => Number(b.Year) - Number(a.Year));
+  } else if (sortType === 'oldest') {
+    sortedMovies.sort((a, b) => Number(a.Year) - Number(b.Year));
+  }
+
+  displayMovies(sortedMovies);
 }
