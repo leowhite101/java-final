@@ -49,6 +49,13 @@ async function fetchMovies(searchTerm) {
   }
   }
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   //Display movies
   function displayMovies(movies) {
     const movieResults = movies.map((movie) => {
@@ -74,17 +81,26 @@ ${poster ? `<img class="movie-card__img" src="${poster}" alt="${movie.Title}">` 
         img.replaceWith(placeholder);
       });
     });
+  }
 
+// Sort movies
 
-// Load Marvel movies on start
-fetchMovies('Avengers');
+sortSelect.addEventListener('change', (e) => {
+  sortMovies(e.target.value);
+});
 
+function sortMovies(sortType) {
+  let sortedMovies = [...currentMovies];
 
-//function sortMovies(sortType) {
- // let sortedMovies = [...currentMovies];
-
-    //sortedMovies.sort((a, b) => Number(a.Year) - Number(b.Year));
- // }
-
-  //displayMovies(sortedMovies);
-//}
+  if (sortType === 'a-z) {
+  sortedMovies.sort((a, b) => a.Title.localCompare(b.Title));
+} else if (sortType === 'z-a') {
+  sortedMovies.sort((a,b) => b.Title.localCompare(a.Title));
+} else if (sortType === 'newest') {
+  sortedMovies.sort((a, b) => Number(b.Year) - Number(a.Year));
+} else if (sortType === 'oldest') {
+  sortedMovies.sort((a, b) => Number(a.Year) - Number(b.Year));
+}
+ 
+displayMovies(sortedMovies);
+}
